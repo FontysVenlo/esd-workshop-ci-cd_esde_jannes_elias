@@ -9,4 +9,3 @@ That includes:
 - Presentation (if applicable)
 - References
 - Docker (compose) file (if applicable)
--test
