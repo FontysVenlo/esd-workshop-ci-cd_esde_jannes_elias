@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.2.2.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management' version '1.1.6'
 }
 
 group = 'com.example'
@@ -9,7 +9,6 @@ version = '1.0-SNAPSHOT'
 
 java {
     toolchain {
-        // CI verwendet standardmäßig Java 17 oder neuer
         languageVersion = JavaLanguageVersion.of(17)
     }
 }
@@ -20,11 +19,11 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'net.logstash.logback:logstash-logback-encoder:5.2'
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.4' // aktuelle Version für Boot 3.x
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-test {
+tasks.named('test') {
     useJUnitPlatform()
 }
