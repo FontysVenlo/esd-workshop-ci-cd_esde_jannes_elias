@@ -42,7 +42,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: user/app:latest
+          tags: ellimen/esd:latest
 
   dependency-submission:
     runs-on: ubuntu-latest
