@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jre-alpine   # wenn du sowieso auf neue Spring Boot Version gehst
+FROM eclipse-temurin:17-jre-alpine 
 
 EXPOSE 8080
 
