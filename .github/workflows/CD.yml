@@ -1,34 +1,44 @@
 name: CD (Docker & Pages)
 
 on:
+  # Fire after CI completes for pushes to main
   workflow_run:
-    workflows: [ "CI (Build & Test)" ]   # must match the CI workflow name
+    workflows: [ "CI (Build & Test)" ]   # must match your CI workflow name exactly
     types: [ completed ]
+    branches: [ main ]
+  # Optional: allow manual runs from the Actions tab
+  workflow_dispatch: {}
 
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Keep CD from cancelling itself; use a group distinct from CI
 concurrency:
-  group: cd-${{ github.event.workflow_run.head_branch }}
+  group: cd-${{ github.workflow }}-${{ github.event.workflow_run.head_branch || 'manual' }}
   cancel-in-progress: false
 
 jobs:
   deploy:
-    if: >
-      ${{
-        github.event.workflow_run.conclusion == 'success' &&
-        github.event.workflow_run.event == 'push' &&
-        github.event.workflow_run.head_branch == 'main' &&
-        github.event.workflow_run.head_repository.full_name == github.repository
-      }}
+    # Run automatically only when CI succeeded on a push to main,
+    # or always when started manually via workflow_dispatch.
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+
     steps:
-      - name: Check out the exact commit that CI validated
+      - name: Determine commit to deploy
+        id: meta
+        run: |
+          # Prefer the exact commit CI validated, fall back to current SHA (manual runs)
+          SHA="${{ github.event.workflow_run.head_sha || github.sha }}"
+          echo "sha=$SHA" >> "$GITHUB_OUTPUT"
+          echo "short_sha=${SHA::12}" >> "$GITHUB_OUTPUT"
+
+      - name: Check out code at deploy commit
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+          ref: ${{ steps.meta.outputs.sha }}
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -39,36 +49,46 @@ jobs:
       - name: Setup Gradle cache
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build Boot JAR
+      - name: Build Spring Boot JAR
         run: ./gradlew clean bootJar
 
-      # --- Docker push (only runs on main thanks to the if above) ---
+      # ---------- Docker build & push ----------
+      # Guard Docker steps to only run automatically when source event was a push to main
       - name: Log in to Docker Hub
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.event == 'push' }}
         uses: docker/login-action@v3
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Set up QEMU
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.event == 'push' }}
         uses: docker/setup-qemu-action@v3
 
-      - name: Set up Buildx
+      - name: Set up Docker Buildx
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.event == 'push' }}
         uses: docker/setup-buildx-action@v3
 
-      - name: Build & push image
+      - name: Build & push Docker image
+        if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.event == 'push' }}
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: |
             ellimen/esd:latest
-            ellimen/esd:${{ github.event.workflow_run.head_sha }}
+            ellimen/esd:${{ steps.meta.outputs.sha }}
 
-      # --- GitHub Pages deploy ---
-      - name: Generate Pages data
+      # ---------- GitHub Pages deploy ----------
+      - name: Generate Pages data (docs/data.json)
         env:
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
         run: ./gradlew exportPagesData
+
+      - name: Sanity check docs
+        run: |
+          test -f docs/index.html || (echo "docs/index.html missing" >&2; exit 1)
+          test -f docs/data.json  || (echo "docs/data.json missing"  >&2; exit 1)
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -81,3 +101,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deploy
         uses: actions/deploy-pages@v4
+
+      - name: Pages URL
+        if: always()
+        run: echo "Deployed to GitHub Pages."
