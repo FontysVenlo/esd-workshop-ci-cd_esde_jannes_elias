@@ -4,9 +4,9 @@
 
 https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/blob/main/.github/workflows/CI.yml
 <!-- Build & Deploy -->
-[![CI](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/actions/workflows/ci.yml/badge.svg?branch=main&t=1)](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/actions/workflows/CI.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/CI.yml?branch=main)](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/actions/workflows/CI.yml)
 
-[![CD](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/actions/workflows/cd.yml/badge.svg?branch=main&t=1)](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/actions/workflows/CD.yml)
+[![CD](https://img.shields.io/github/actions/workflow/status/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/CD.yml?branch=main)](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/actions/workflows/CD.yml)
 
 
 
