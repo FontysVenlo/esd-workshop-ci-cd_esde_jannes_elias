@@ -1,7 +1,7 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/t1er-CAW)
 
 <!-- Build & Deploy -->
-![CI](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/blob/main/.github/workflows/CI.yml/badge.svg)
 ![CD](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/actions/workflows/cd.yml/badge.svg)
 
 <!-- Coverage (Codecov) – will turn green once Codecov is set below -->
