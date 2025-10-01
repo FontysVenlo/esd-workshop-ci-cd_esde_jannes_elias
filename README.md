@@ -1,9 +1,12 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/t1er-CAW)
 
-<!-- Build & Deploy -->
-[![CI](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/.github/workflows/ci.yml/badge.svg?branch=main)](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/.github/workflows/ci.yml)
 
-[![CD](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/.github/workflows/cd.yml/badge.svg?branch=main)](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/.github/workflows/cd.yml)
+
+https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/blob/main/.github/workflows/CI.yml
+<!-- Build & Deploy -->
+[![CI](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/.github/workflows/ci.yml/badge.svg?branch=main)](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/blob/main/.github/workflows/CI.yml)
+
+[![CD](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/.github/workflows/cd.yml/badge.svg?branch=main)](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/blob/main/.github/workflows/CD.yml)
 
 
 <!-- Coverage (Codecov) – will turn green once Codecov is set below -->
