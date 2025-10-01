@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.4'
     id 'io.spring.dependency-management' version '1.1.6'
+    id 'jacoco'
 }
 
 group = 'com.example'
@@ -34,5 +35,18 @@ tasks.register('exportPagesData', JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'com.example.ExportPagesData'
     environment 'BUILD_VERSION', System.getenv('GITHUB_RUN_NUMBER') ?: 'local'
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+    }
 }
 
