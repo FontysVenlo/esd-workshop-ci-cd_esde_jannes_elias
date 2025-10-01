@@ -30,6 +30,31 @@ jobs:
       - name: Build & Test (Boot JAR)
         run: ./gradlew clean test bootJar
 
+      - name: Test & Coverage
+        run: ./gradlew clean test jacocoTestReport
+
+      - name: Upload coverage artifact (HTML)
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-report
+          path: build/reports/jacoco/test/html
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: build/reports/jacoco/test/jacocoTestReport.xml
+          fail_ci_if_error: true
+          verbose: false
+
+      - name: Publish unit test results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: |
+            **/build/test-results/test/*.xml
+
+
+
       - name: Upload build artifact (jar)
         uses: actions/upload-artifact@v4
         with:
