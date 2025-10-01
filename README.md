@@ -4,9 +4,10 @@
 
 https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/blob/main/.github/workflows/CI.yml
 <!-- Build & Deploy -->
-[![CI](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/.github/workflows/ci.yml/badge.svg?branch=main)](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/blob/main/.github/workflows/CI.yml)
+[![CI](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/actions/workflows/CI.yml)
 
-[![CD](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/.github/workflows/cd.yml/badge.svg?branch=main)](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/blob/main/.github/workflows/CD.yml)
+[![CD](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/actions/workflows/cd.yml/badge.svg?branch=main)](https://github.com/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/actions/workflows/CD.yml)
+
 
 
 <!-- Coverage (Codecov) – will turn green once Codecov is set below -->
