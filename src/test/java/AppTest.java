@@ -7,6 +7,6 @@ class AppTest {
     @Test
     void testAppReturnsOK() {
         String result = "OK";
-        assertEquals("OK", result);
+        assertEquals("OKI", result);
     }
 }
