@@ -1,8 +1,13 @@
 name: CD (Docker & Pages)
 
 on:
-  push:
-    branches: ["main"]
+  workflow_run:
+    workflows: ["CI (Build & Test"]
+    types:
+      - completed
+    branches:
+      - main
+      
 
 
 permissions:
