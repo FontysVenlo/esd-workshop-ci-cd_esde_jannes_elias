@@ -1,13 +1,11 @@
 name: CD (Docker & Pages)
 
+
 on:
   workflow_run:
-    workflows: ["CI (Build & Test"]
-    types:
-      - completed
-    branches:
-      - main
-      
+    workflows: ["CI (Build & Test)"]   
+    types: [completed]
+    branches: [main]
 
 
 permissions:
