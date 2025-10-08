@@ -37,7 +37,7 @@ jobs:
         run: ./gradlew clean test bootJar
 
       - name: Test & Coverage
-        run: ./gradlew clean test jacocoTestReport
+        run: ./gradlew test jacocoTestReport
 
       - name: Upload coverage artifact (HTML)
         uses: actions/upload-artifact@v4
