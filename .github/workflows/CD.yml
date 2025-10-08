@@ -6,6 +6,7 @@ on:
     workflows: ["CI (Build & Test)"]   
     types: [completed]
     branches: [main]
+  workflow_dispatch: {}
 
 
 permissions:
