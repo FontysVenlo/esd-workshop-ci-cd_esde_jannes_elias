@@ -2,7 +2,7 @@ name: CI (Build & Test)
 
 on:
   push:
-    branches: [ "main" ]
+    branches: "**"
   pull_request:
     branches: [ "main" ]
 
@@ -45,12 +45,12 @@ jobs:
           name: jacoco-report
           path: build/reports/jacoco/test/html
 
-      - name: Upload coverage to Codecov
+      - name: Upload coverage to Codecov 
         uses: codecov/codecov-action@v4
         with:
           files: build/reports/jacoco/test/jacocoTestReport.xml
+          token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
-          verbose: false
 
       - name: Publish unit test results
         uses: EnricoMi/publish-unit-test-result-action@v2
