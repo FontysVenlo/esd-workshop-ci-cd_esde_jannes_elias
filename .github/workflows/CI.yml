@@ -45,7 +45,7 @@ jobs:
           name: jacoco-report
           path: build/reports/jacoco/test/html
 
-      # Upload to Codecov via OIDC. Skip for forked PRs (they don't get OIDC).
+      # Upload to Codecov via OIDC; skip on forked PRs
       - name: Upload coverage to Codecov (OIDC)
         if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
         uses: codecov/codecov-action@v4
@@ -54,7 +54,7 @@ jobs:
           use_oidc: true
           fail_ci_if_error: true
 
-      # Publish unit test results (skip on forked PRs to avoid 403 on check runs)
+      # Publish unit test results; skip on forked PRs to avoid 403 creating check-runs
       - name: Publish unit test results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
@@ -73,6 +73,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    # run only on pushes (PRs/forks won’t have perms to write the graph)
+    if: ${{ github.event_name == 'push' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -86,7 +88,3 @@ jobs:
         uses: gradle/actions/dependency-submission@v4
         continue-on-error: true
 
-          java-version: 17
-      - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@v4
-        continue-on-error: true
