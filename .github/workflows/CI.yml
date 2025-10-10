@@ -6,17 +6,16 @@ on:
   pull_request:
     branches: [ "main" ]
 
-    
-
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-
+# OIDC for Codecov + write perms for test publisher on same-repo PRs
 permissions:
   contents: read
-  checks: write           
+  checks: write
   pull-requests: write
+  id-token: write
 
 jobs:
   build:
@@ -33,11 +32,12 @@ jobs:
       - name: Setup Gradle (cache)
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Build & Test (Boot JAR)
-        run: ./gradlew clean test bootJar
+      # One call: build, tests, and coverage (prevents cleaning artifacts away)
+      - name: Build, test & coverage
+        run: ./gradlew clean test jacocoTestReport bootJar
 
-      - name: Test & Coverage
-        run: ./gradlew test jacocoTestReport
+      - name: Show coverage file exists
+        run: ls -lh build/reports/jacoco/test/jacocoTestReport.xml
 
       - name: Upload coverage artifact (HTML)
         uses: actions/upload-artifact@v4
@@ -45,21 +45,21 @@ jobs:
           name: jacoco-report
           path: build/reports/jacoco/test/html
 
-      - name: Upload coverage to Codecov 
+      # Upload to Codecov via OIDC. Skip for forked PRs (they don't get OIDC).
+      - name: Upload coverage to Codecov (OIDC)
+        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
         uses: codecov/codecov-action@v4
         with:
           files: build/reports/jacoco/test/jacocoTestReport.xml
-          token: ${{ secrets.CODECOV_TOKEN }}
+          use_oidc: true
           fail_ci_if_error: true
 
+      # Publish unit test results (skip on forked PRs to avoid 403 on check runs)
       - name: Publish unit test results
         uses: EnricoMi/publish-unit-test-result-action@v2
-        if: always()
+        if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
         with:
-          files: |
-            **/build/test-results/test/*.xml
-
-
+          files: '**/build/test-results/test/*.xml'
 
       - name: Upload build artifact (jar)
         uses: actions/upload-artifact@v4
@@ -75,10 +75,17 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
+          java-version: 17
+
+      - name: Generate and submit dependency graph
+        uses: gradle/actions/dependency-submission@v4
+        continue-on-error: true
+
           java-version: 17
       - name: Generate and submit dependency graph
         uses: gradle/actions/dependency-submission@v4
