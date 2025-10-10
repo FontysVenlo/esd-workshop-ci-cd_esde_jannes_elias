@@ -22,10 +22,7 @@
 
 
 [![codecov](https://codecov.io/gh/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/graph/badge.svg?token=O77MK9D3UC)](https://codecov.io/gh/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias)
-
-[![codecov](https://codecov.io/gh/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias/branch/main/graph/badge.svg)](https://codecov.io/gh/FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias)
 <br>
-
 <h2>Docker Pulls</h2>
 
 <!-- Docker pulls (optional) -->
