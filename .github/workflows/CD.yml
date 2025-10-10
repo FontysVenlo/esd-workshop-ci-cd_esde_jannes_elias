@@ -65,7 +65,7 @@ jobs:
 
   pages:
     runs-on: ubuntu-latest
-    needs: docker   # run Pages deploy after Docker; remove if you want them independent
+    needs: docker   
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
