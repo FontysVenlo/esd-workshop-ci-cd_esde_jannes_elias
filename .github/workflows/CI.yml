@@ -52,7 +52,7 @@ jobs:
         with:
           files: build/reports/jacoco/test/jacocoTestReport.xml
           use_oidc: true
-          slug: FontysVenlo/esd-workshop-ci-cd_jannes_elias
+          slug: FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias
           fail_ci_if_error: true
 
       # Publish unit test results; skip on forked PRs to avoid 403 creating check-runs
