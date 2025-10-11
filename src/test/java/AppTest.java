@@ -15,6 +15,6 @@ class AppTest {
     @Test
     void testStaus() {
         String status = app.getStatus();
-        assertEquals("OK",status);
+        assertEquals("OKI",status);
     }
 }
