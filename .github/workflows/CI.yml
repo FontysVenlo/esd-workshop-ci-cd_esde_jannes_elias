@@ -20,6 +20,7 @@ permissions:
 
 jobs:
   build:
+    name: CI (Build & Test)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
