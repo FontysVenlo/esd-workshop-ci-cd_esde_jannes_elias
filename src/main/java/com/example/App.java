@@ -22,6 +22,6 @@ public class App {
     }
 
     public String getStatus() {
-        return "OKOK";
+        return "OK";
     }
 }
