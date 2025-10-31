@@ -8,10 +8,12 @@ public class ExportPagesData {
         App app = new App(); // we just use it as a value holder
         String message = app.getStatus();
         String version = System.getenv().getOrDefault("BUILD_VERSION", "dev");
+        String imageUrl = "61avdr.webp";
 
         String json = "{\n" +
                 "  \"message\": \"" + escape(message) + "\",\n" +
                 "  \"version\": \"" + escape(version) + "\"\n" +
+                "  \"image\": \"" + escape(imageUrl) + "\"\n" +
                 "}\n";
 
         Path docs = Paths.get("docs");
