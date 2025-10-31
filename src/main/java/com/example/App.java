@@ -22,6 +22,6 @@ public class App {
     }
 
     public String getStatus() {
-        return "OKI";
+        return "Meister Lampe";
     }
 }
