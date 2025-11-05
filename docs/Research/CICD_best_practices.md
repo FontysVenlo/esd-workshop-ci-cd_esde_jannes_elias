@@ -94,4 +94,4 @@ A good CI/CD pipeline should be:
 
 Based on:  
 Jack Dwyer (2025) – *20 Most Important CI/CD Pipeline Best Practices*  
-[Zeet Blog](https://zeet.co/blog/ci-cd-pipeline-best-practices)
+[Zeet Blog](https://zeet.co/blog/cicd-pipeline-best-practices)
