@@ -36,4 +36,11 @@ Today, CI/CD is a standard in modern software engineering.
 It ensures continuous testing, integration, and delivery, helping teams release higher-quality software more frequently and with fewer risks.  
 The evolution of CI/CD demonstrates how automation transformed software development from a manual, error-prone process into a continuous and reliable workflow.
 
+
+---
+
+## Source
+
+Based on:  
+Digger HQ (2023) – *A Brief History of CI/CD Tooling*  
 [Source](https://medium.com/@DiggerHQ/a-brief-history-of-ci-cd-tooling-5a67c2638f3a)

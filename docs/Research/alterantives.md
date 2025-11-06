@@ -1,5 +1,6 @@
 # Alternatives to CI/CD
 
+//TODO more alternatives and comparison
 ---
 
 ## GitOps
