@@ -42,13 +42,17 @@ GitHub Actions:
 
 https://docs.github.com/en/actions
 https://docs.github.com/en/actions/concepts/billing-and-usage
+https://spacelift.io/blog/github-actions-vs-jenkins
+https://blog.mirrorfolio.com/surveying-the-merits-and-drawbacks-of-github-actions
 
 GitLab CI/CD
 
 https://docs.gitlab.com/ci/
 https://docs.gitlab.com/ci/pipelines/
+https://knapsackpro.com/ci_servers/gitlab-ci
 
 Jenkins
 
 https://www.jenkins.io/2.0/
 https://www.jenkins.io/doc/book/pipeline/
+https://medium.com/devops-technical-notes-and-manuals/why-use-jenkins-over-the-other-tools-jenkins-pros-and-cons-d2d4811ae81c
