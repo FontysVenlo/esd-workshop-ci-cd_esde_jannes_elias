@@ -144,5 +144,3 @@ https://de.wikipedia.org/wiki/Nightly_Build
 t2informatik (-) *Nightly Build* [online]
 https://t2informatik.de/wissen-kompakt/nightly-build/
 [Accessed: 08.11.2025]
-
-
