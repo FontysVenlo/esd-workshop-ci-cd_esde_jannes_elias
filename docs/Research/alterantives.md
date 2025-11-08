@@ -113,6 +113,6 @@ This increases **collaboration, visibility, and consistency** across the entire 
 
 ## Source
 
-Based on:  
-GitLab (unknown year) – *What is GitOps*  
-[What is GitOps](https://about.gitlab.com/topics/gitops/)
+GitLab (-): *What is GitOps* [online]  
+https://about.gitlab.com/topics/gitops/
+[Accessed: 08.11.2025]

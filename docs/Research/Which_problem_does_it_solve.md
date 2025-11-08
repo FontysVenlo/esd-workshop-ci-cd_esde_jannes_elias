@@ -57,7 +57,6 @@ The result is **faster, safer, and more reliable releases** — and a smoother w
 
 ## Source
 
-Based on:  
-
-Viet Hoang Nghiem (2025) – *CI/CD verstehen: Der Schlüssel zu schnelleren, sicheren Software-Releases*  
-[CI/CD verstehen: Der Schlüssel zu schnelleren, sicheren Software-Releases](https://www.dataspark.de/blog/neues-von-dataspark-in-unserem-blog-1/ci-cd-verstehen-der-schlussel-zu-schnelleren-sicheren-software-releases-31)
+Viet Hoang Nghiem (2025): *CI/CD verstehen: Der Schlüssel zu schnelleren, sicheren Software-Releases* [online]
+https://www.dataspark.de/blog/neues-von-dataspark-in-unserem-blog-1/ci-cd-verstehen-der-schlussel-zu-schnelleren-sicheren-software-releases-31
+[Accessed: 08.11.2025]

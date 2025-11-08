@@ -41,6 +41,6 @@ The evolution of CI/CD demonstrates how automation transformed software developm
 
 ## Source
 
-Based on:  
-Digger HQ (2023) – *A Brief History of CI/CD Tooling*  
-[Source](https://medium.com/@DiggerHQ/a-brief-history-of-ci-cd-tooling-5a67c2638f3a)
+Digger HQ (2023): *A Brief History of CI/CD Tooling* [online]
+https://medium.com/@DiggerHQ/a-brief-history-of-ci-cd-tooling-5a67c2638f3a
+[Accessed: 08.11.2025]
