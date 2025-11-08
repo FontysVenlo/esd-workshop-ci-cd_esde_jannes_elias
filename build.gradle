@@ -5,7 +5,7 @@ plugins {
     id 'jacoco'
 }
 
-group = 'com.example'
+group = 'workshop'
 version = '1.0-SNAPSHOT'
 
 java {
@@ -21,6 +21,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'net.logstash.logback:logstash-logback-encoder:7.4'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
@@ -33,9 +34,10 @@ tasks.register('exportPagesData', JavaExec) {
     group = "pages"
     description = "Write docs/data.json for GitHub Pages from Java values"
     classpath = sourceSets.main.runtimeClasspath
-    mainClass = 'com.example.ExportPagesData'
+    mainClass = 'workshop.ExportPagesData'
     environment 'BUILD_VERSION', System.getenv('GITHUB_RUN_NUMBER') ?: 'local'
 }
+
 
 test {
     useJUnitPlatform()
