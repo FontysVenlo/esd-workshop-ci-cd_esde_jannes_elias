@@ -9,6 +9,7 @@
     - Add project description
     - Include table of contents
     - Add current CI/CD KPIs
+    - Disable Workflow edit
 
 ---
 
