@@ -32,7 +32,7 @@ tasks.named('test') {
 
 tasks.register('exportPagesData', JavaExec) {
     group = "pages"
-    description = "Write docs/data.json for GitHub Pages from Java values"
+    description = "Write exportPagesData for GitHub Pages from Java values"
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'workshop.ExportPagesData'
     environment 'BUILD_VERSION', System.getenv('GITHUB_RUN_NUMBER') ?: 'local'
