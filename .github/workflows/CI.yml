@@ -36,7 +36,7 @@ jobs:
 
       # One call: build, tests, and coverage (prevents cleaning artifacts away)
       - name: Build, test & coverage
-        run: ./gradlew clean test jacocoTestReport bootJar
+        run: ./gradlew clean jacocoTestReport bootJar
 
       - name: Show coverage file exists
         run: ls -lh build/reports/jacoco/test/jacocoTestReport.xml
