@@ -36,7 +36,6 @@ jobs:
       - name: Build, test & coverage
         run: ./gradlew clean jacocoTestReport bootJar
 
-      
       - name: Upload coverage to Codecov (OIDC)
         if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
         uses: codecov/codecov-action@v4
@@ -46,7 +45,6 @@ jobs:
           slug: FontysVenlo/esd-workshop-ci-cd_esde_jannes_elias
           fail_ci_if_error: true
 
-      
       - name: Publish unit test results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: ${{ always() && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) }}
