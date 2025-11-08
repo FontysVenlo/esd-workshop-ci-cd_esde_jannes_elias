@@ -4,7 +4,7 @@ import workshop.BuildInfoApplication;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-@SpringBootTest
+@SpringBootTest(classes = BuildInfoApplication.class)
 class BuildInfoApplicationTest {
 
     @Test
