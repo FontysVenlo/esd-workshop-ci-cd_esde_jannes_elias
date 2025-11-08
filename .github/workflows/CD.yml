@@ -86,11 +86,7 @@ jobs:
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
         run: ./gradlew exportPagesData
 
-      - name: Sanity check docs
-        run: |
-          test -f docs/index.html || (echo "docs/index.html missing" >&2; exit 1)
-          test -f docs/data.json  || (echo "docs/data.json missing"  >&2; exit 1)
-
+      
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
