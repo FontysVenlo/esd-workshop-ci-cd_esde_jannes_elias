@@ -38,15 +38,6 @@ jobs:
       - name: Build, test & coverage
         run: ./gradlew clean jacocoTestReport bootJar
 
-      - name: Show coverage file exists
-        run: ls -lh build/reports/jacoco/test/jacocoTestReport.xml
-
-      - name: Upload coverage artifact (HTML)
-        uses: actions/upload-artifact@v4
-        with:
-          name: jacoco-report
-          path: build/reports/jacoco/test/html
-
       # Upload to Codecov via OIDC; skip on forked PRs
       - name: Upload coverage to Codecov (OIDC)
         if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
