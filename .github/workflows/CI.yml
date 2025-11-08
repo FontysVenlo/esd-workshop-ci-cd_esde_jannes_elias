@@ -10,8 +10,7 @@ on:
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
-
-# OIDC for Codecov + write perms for test publisher on same-repo PRs
+  
 permissions:
   contents: read
   checks: write
