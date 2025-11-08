@@ -12,6 +12,7 @@ public class ExportPagesData {
         String commit = envOrDefault("GITHUB_SHA", "unknown");
         String repo = envOrDefault("GITHUB_REPOSITORY", "unknown/repo");
 
+        // Always write into ./docs relative to current working directory
         Path docsDir = Path.of("docs");
         Files.createDirectories(docsDir);
 
