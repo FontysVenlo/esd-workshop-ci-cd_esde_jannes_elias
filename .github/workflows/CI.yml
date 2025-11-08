@@ -55,14 +55,6 @@ jobs:
         with:
           files: '**/build/test-results/test/*.xml'
 
-      - name: Upload build artifact (jar)
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-jar
-          path: build/libs/*.jar
-          if-no-files-found: error
-          retention-days: 7
-
   dependency-submission:
     runs-on: ubuntu-latest
     permissions:
