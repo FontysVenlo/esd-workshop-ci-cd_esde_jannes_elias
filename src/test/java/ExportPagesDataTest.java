@@ -1,38 +1,43 @@
 import workshop.ExportPagesData;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Comparator;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class ExportPagesDataTest {
+class ExportPagesDataWithCoverageTest {
 
     @Test
-    void generatesDocsFilesWithDefaults() throws Exception {
-        Path docsDir = Path.of("docs");
+    void generatesCoverageFromJacocoXml() throws Exception {
+        // Arrange: write a minimal JaCoCo XML the app expects
+        Path xml = Path.of("build/reports/jacoco/test/jacocoTestReport.xml");
+        Files.createDirectories(xml.getParent());
+        String fake =
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<report name=\"jacoco\">\n" +
+                "  <counter type=\"INSTRUCTION\" missed=\"10\" covered=\"90\"/>\n" +
+                "</report>\n";
+        Files.writeString(xml, fake, StandardCharsets.UTF_8);
 
-        deleteRecursivelyIfExists(docsDir);
+        // Clean docs/ to keep assertions deterministic
+        Path docs = Path.of("docs");
+        if (Files.exists(docs)) {
+            try (var walk = Files.walk(docs)) {
+                walk.sorted((a,b) -> b.getNameCount()-a.getNameCount()).forEach(p -> {
+                    try { Files.deleteIfExists(p); } catch (Exception ignored) {}
+                });
+            }
+        }
 
+        // Act
         ExportPagesData.main(new String[0]);
 
-        Path dataJson = docsDir.resolve("data.json");
-        Path indexHtml = docsDir.resolve("index.html");
-
-        assertTrue(Files.isDirectory(docsDir), "docs directory should exist");
-        assertTrue(Files.exists(dataJson) && Files.size(dataJson) > 0, "data.json should exist and be non-empty");
-        assertTrue(Files.exists(indexHtml) && Files.size(indexHtml) > 0, "index.html should exist and be non-empty");
-    }
-
-    private static void deleteRecursivelyIfExists(Path dir) throws IOException {
-        if (!Files.exists(dir)) return;
-        try (var paths = Files.walk(dir)) {
-            paths.sorted(Comparator.reverseOrder())
-                 .forEach(p -> {
-                     try { Files.deleteIfExists(p); } catch (IOException ignored) {}
-                 });
-        }
+        // Assert
+        Path dataJson = docs.resolve("data.json");
+        String json = Files.readString(dataJson, StandardCharsets.UTF_8);
+        assertTrue(json.contains("\"coveragePercent\": 90.00") || json.contains("\"coveragePercent\": 90"),
+                "data.json should include computed coverage 90%");
     }
 }
