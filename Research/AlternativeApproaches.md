@@ -1,10 +1,9 @@
 # Alternatives to CI/CD
 
-//TODO more alternatives and comparison
 ---
 
 ## GitOps
-
+*The following content is fully based on* (GitLab).
 ### What is GitOps?
 
 GitOps is an operational framework that applies **DevOps practices** like version control, collaboration, and CI/CD to **infrastructure automation**.  
@@ -126,6 +125,52 @@ Daily and Nightly Builds are credible alternatives (or precursors) to more advan
 In an organization where full CI/CD might be too heavy or early, implementing Daily / Nightly Builds can be a meaningful first step towards automation and stability.
 
 ---
+## The Traditional Approach: Manual Deployment
+*The following content is fully based on* (AutoMQ Team, 2025).
+
+### What is it?
+Manual deployment means a person or a team does most or all of the work to release software into environments such as staging or production.  
+This usually involves using checklists, runbooks, or simple scripts to guide the deployment.
+
+### How Manual Deployment Works
+- Developers follow a defined sequence of tasks: copy files, run installation scripts, update configuration settings, restart services often directly on servers or via remote connections.
+- It depends a lot on the skills and caution of the people doing the deployment.
+- Even though it is “manual”, it might still use simple scripts (shell, batch) for repetitive tasks, but the overall process orchestration remains manual.
+
+### When Manual Deployment Makes Sense
+Manual deployment can be acceptable in certain situations:
+- Small-scale projects with simple architecture and infrequent releases.
+- One-time or special deployments that will not be repeated.
+- Legacy systems that are hard to automate or where automation cost is higher than benefit.
+- Teams that do not have automation tools or expertise yet.
+
+### Common Problems of Manual Deployment
+- **Error-prone:** Humans make mistakes, especially with complex or repetitive steps.
+- **Slow and inefficient:** It takes more time than automated methods, delaying releases.
+- **Inconsistent environments:** People may perform steps differently, causing configuration drift.
+- **Poor scalability:** More servers, components, or frequent releases make manual deployment harder.
+- **Difficult rollbacks:** Undoing a bad release is slow and error-prone.
+- **Staff stress:** Frequent and high-risk manual deployments can increase pressure and burnout.
+
+### Best Practices (If Manual Deployment Cannot Be Avoided)
+- Use **comprehensive checklists** for all deployment procedures.
+- Put all scripts and configuration files into **version control**.
+- Keep **development, staging, and production environments** as similar as possible.
+- Use **peer reviews** to check deployment plans and execution.
+- Automate small repetitive tasks, even if the process stays manual.
+- Perform **thorough pre- and post-deployment testing**.
+- Document everything, including problems and deviations from the plan.
+
+---
+
+## Comparison Table: Alternatives to CI/CD
+
+| Category              | GitOps                                                                                                           | Daily / Nightly Builds                                                                                                                                                         | Manual Deployment                                                                                                               |
+|-----------------------|------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| **Description**       | Git as the single source of truth for infrastructure; deployments managed through merge/pull requests (GitLab).  | Automated builds that run on a fixed schedule (daily or nightly) to compile code and execute automated tests (Wikipedia, 2021,2025).                                           | Deployments are executed manually by people (copying files, updating configurations, restarting services) (AutoMQ Team, 2025).  |
+| **Advantages**        | High transparency; automation; increased security; ideal for Kubernetes environments (GitLab).                   | Early detection of integration issues (t2informatik), simple setup, supports long-running tests (especially at night) (Wikipedia, 2021); reproducible state (Wikipedia, 2025). | Easy to start; flexible; suitable for one-off deployments (AutoMQ Team, 2025).                                                  |
+| **Disadvantages**     | Requires discipline; review processes may slow things down (GitLab).                                             | Feedback is delayed; issues may accumulate; not suitable for production-quality validation (Wikipedia, 2021).                                                                  | Error-prone; slow; poor scalability; difficult rollback; high stress (AutoMQ Team, 2025).                                       |
+| **Typical Use Cases** | Modern cloud/Kubernetes setups; teams with DevOps maturity (GitLab).                                             | Teams without full CI/CD; legacy codebases; projects needing daily snapshots or long overnight tests (Wikipedia, 2021).                                                        | Small projects; special one-time deployments; legacy systems without automation (AutoMQ Team, 2025).                            |
 
 ## Sources
 
@@ -144,3 +189,7 @@ https://de.wikipedia.org/wiki/Nightly_Build
 t2informatik (-) *Nightly Build* [online]
 https://t2informatik.de/wissen-kompakt/nightly-build/
 [Accessed: 08.11.2025]
+
+AutoMQ Team (2025) *Fully Automated Deployment vs. Manual Deployment: A Comprehensive Guide* [online]
+https://www.automq.com/blog/fully-automated-deployment-vs-manual-deployment-comparison
+[Accessed: 14.11.2025]
