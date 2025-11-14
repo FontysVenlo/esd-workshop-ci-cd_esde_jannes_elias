@@ -21,7 +21,7 @@ public class ExportPagesData {
         String builtAt      = Instant.now().toString();
 
         // Docker image info (adjust IMAGE_NAME default to your real image on Docker Hub or GHCR)
-        String imageName    = env("ESD", "ellimen/esd");
+        String imageName    = env("IMAGE_NAME", "ellimen/esd");
         String imageLatest  = imageName + ":latest";
         String imageShaTag  = imageName + ":" + shortSha;
 
