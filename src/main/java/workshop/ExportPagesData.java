@@ -5,58 +5,46 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
-import java.util.Map;
 
 public class ExportPagesData {
 
     public static void main(String[] args) throws IOException {
-        // Inputs from workflow env (all have safe defaults for local runs)
         String repository   = env("GITHUB_REPOSITORY", "unknown/repo");
         String branch       = env("GITHUB_REF_NAME",  "local");
         String commit       = env("COMMIT_SHA",       env("GITHUB_SHA", "unknown"));
         String shortSha     = commit.length() >= 12 ? commit.substring(0, 12) : commit;
         String runId        = env("GITHUB_RUN_ID",    "0");
         String runUrl       = env("RUN_URL",          "https://example.invalid");
-        String buildVersion = env("BUILD_VERSION",    "local");  // we already set this in Gradle task
+        String buildVersion = env("BUILD_VERSION",    "local");
         String builtAt      = Instant.now().toString();
-
-        // Docker image info (adjust IMAGE_NAME default to your real image on Docker Hub or GHCR)
-        String imageName    = env("IMAGE_NAME", "ellimen/esd");
+        String imageName    = env("IMAGE_NAME",       "ellimen/esd");
         String imageLatest  = imageName + ":latest";
         String imageShaTag  = imageName + ":" + shortSha;
-
-        // Optional security placeholders (can wire later)
         String trivyHigh    = env("TRIVY_HIGH", "0");
         String trivyCritical= env("TRIVY_CRITICAL", "0");
 
-        // Ensure ./docs exists
         Path docs = Path.of("docs");
         Files.createDirectories(docs);
 
-        // JSON for programmatic consumption
-        String json = """
-          {
-            "repository": "%s",
-            "branch": "%s",
-            "commit": "%s",
-            "shortSha": "%s",
-            "buildVersion": "%s",
-            "builtAt": "%s",
-            "runId": "%s",
-            "runUrl": "%s",
-            "imageLatest": "%s",
-            "imageShaTag": "%s",
-            "security": { "trivyHigh": %s, "trivyCritical": %s }
-          }
-          """.formatted(
-                escape(repository), escape(branch), escape(commit), escape(shortSha),
-                escape(buildVersion), escape(builtAt), escape(runId), escape(runUrl),
-                escape(imageLatest), escape(imageShaTag), trivyHigh, trivyCritical
-          );
+        // Build JSON without format()
+        String json =
+            "{\n" +
+            "  \"repository\": \"" + j(repository) + "\",\n" +
+            "  \"branch\": \"" + j(branch) + "\",\n" +
+            "  \"commit\": \"" + j(commit) + "\",\n" +
+            "  \"shortSha\": \"" + j(shortSha) + "\",\n" +
+            "  \"buildVersion\": \"" + j(buildVersion) + "\",\n" +
+            "  \"builtAt\": \"" + j(builtAt) + "\",\n" +
+            "  \"runId\": \"" + j(runId) + "\",\n" +
+            "  \"runUrl\": \"" + j(runUrl) + "\",\n" +
+            "  \"imageLatest\": \"" + j(imageLatest) + "\",\n" +
+            "  \"imageShaTag\": \"" + j(imageShaTag) + "\",\n" +
+            "  \"security\": { \"trivyHigh\": " + trivyHigh + ", \"trivyCritical\": " + trivyCritical + " }\n" +
+            "}\n";
 
         Files.writeString(docs.resolve("data.json"), json, StandardCharsets.UTF_8);
 
-        // Simple dashboard HTML (no external JS/CSS)
+        // Build HTML without format(); keep % literals intact
         String html = """
           <!doctype html>
           <html lang="en">
@@ -82,45 +70,43 @@ public class ExportPagesData {
           <body>
             <div class="card">
               <h1>✅ Build succeeded</h1>
-              <p class="meta">Built at <strong>%s</strong> • Run <a href="%s">#%s</a></p>
-
+        """ +
+        "<p class=\"meta\">Built at <strong>" + h(builtAt) + "</strong> • Run <a href=\"" + h(runUrl) + "\">#" + h(runId) + "</a></p>\n" +
+        """
               <div class="row">
                 <div>
                   <table>
-                    <tr><th>Repository</th><td>%s</td></tr>
-                    <tr><th>Branch</th><td><code>%s</code></td></tr>
-                    <tr><th>Commit</th><td><code>%s</code> (<code>%s</code>)</td></tr>
-                    <tr><th>Build version</th><td><code>%s</code></td></tr>
+        """ +
+        row("Repository", h(repository)) +
+        row("Branch", "<code>" + h(branch) + "</code>") +
+        row("Commit", "<code>" + h(commit) + "</code> (<code>" + h(shortSha) + "</code>)") +
+        row("Build version", "<code>" + h(buildVersion) + "</code>") +
+        """
                   </table>
                 </div>
                 <div>
                   <table>
-                    <tr><th>Image (latest)</th><td><code>%s</code></td></tr>
-                    <tr><th>Image (sha)</th><td><code>%s</code></td></tr>
-                    <tr><th>Security (Trivy)</th><td>
-                      <span class="%s">High: %s</span>
-                      &nbsp; <span class="%s">Critical: %s</span>
-                    </td></tr>
+        """ +
+        row("Image (latest)", "<code>" + h(imageLatest) + "</code>") +
+        row("Image (sha)", "<code>" + h(imageShaTag) + "</code>") +
+        row("Security (Trivy)",
+            "<span class=\"ok\">High: " + h(trivyHigh) + "</span> &nbsp; " +
+            "<span class=\"warn\">Critical: " + h(trivyCritical) + "</span>") +
+        """
                   </table>
                 </div>
               </div>
 
               <h3>Pull & run locally</h3>
-              <pre>docker pull %s
-docker run -p 8080:8080 -e APP_COMMIT=%s %s</pre>
-
+        """ +
+        "<pre>docker pull " + h(imageShaTag) + "\n" +
+        "docker run -p 8080:8080 -e APP_COMMIT=" + h(shortSha) + " " + h(imageShaTag) + "</pre>\n" +
+        """
               <p>Programmatic data: <a href="./data.json">data.json</a></p>
             </div>
           </body>
           </html>
-          """.formatted(
-                esc(builtAt), esc(runUrl), esc(runId),
-                esc(repository), esc(branch), esc(commit), esc(shortSha),
-                esc(buildVersion),
-                esc(imageLatest), esc(imageShaTag),
-                "ok", esc(trivyHigh), "warn", esc(trivyCritical),
-                esc(imageShaTag), esc(shortSha), esc(imageShaTag)
-          );
+          """;
 
         Files.writeString(docs.resolve("index.html"), html, StandardCharsets.UTF_8);
     }
@@ -129,8 +115,10 @@ docker run -p 8080:8080 -e APP_COMMIT=%s %s</pre>
         String v = System.getenv(k);
         return (v == null || v.isBlank()) ? def : v;
     }
-    // very light escaping for HTML/JSON templates
-    private static String esc(String s) { return s.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;"); }
-    private static String escape(String s) { return s.replace("\\","\\\\").replace("\"","\\\""); }
-}
+    private static String h(String s) { return s.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;"); }
+    private static String j(String s) { return s.replace("\\","\\\\").replace("\"","\\\""); }
 
+    private static String row(String k, String v) {
+        return "                    <tr><th>" + k + "</th><td>" + v + "</td></tr>\n";
+    }
+}
