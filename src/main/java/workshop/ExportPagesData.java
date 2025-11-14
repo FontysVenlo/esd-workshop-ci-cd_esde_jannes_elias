@@ -9,31 +9,40 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Instant;
+import java.util.Locale;
 
 public class ExportPagesData {
 
     public static void main(String[] args) throws Exception {
         String buildVersion = env("BUILD_VERSION", "local");
 
+        // Ensure JaCoCo report exists; this file is produced by `jacocoTestReport`
         Path jacocoXml = Path.of("build/reports/jacoco/test/jacocoTestReport.xml");
         double coverage = Files.exists(jacocoXml) ? readInstructionCoveragePercent(jacocoXml) : -1.0;
 
         Path docs = Path.of("docs");
         Files.createDirectories(docs);
 
-        String json = "{\n" +
+        // --- data.json (programmatic) ---
+        String json =
+                "{\n" +
                 "  \"status\": \"success\",\n" +
                 "  \"buildVersion\": \"" + j(buildVersion) + "\",\n" +
-                (coverage >= 0 ? "  \"coveragePercent\": " + String.format(java.util.Locale.ROOT, "%.2f", coverage) + ",\n" : "") +
+                (coverage >= 0
+                        ? "  \"coveragePercent\": " + String.format(Locale.ROOT, "%.2f", coverage) + ",\n"
+                        : "") +
                 "  \"generatedAt\": \"" + j(Instant.now().toString()) + "\"\n" +
                 "}\n";
+
         Files.writeString(docs.resolve("data.json"), json, StandardCharsets.UTF_8);
 
         // --- index.html (human) ---
         String coverageLine = (coverage >= 0)
-                ? "<p><strong>Test coverage:</strong> " + h(String.format(java.util.Locale.ROOT, "%.2f%%", coverage)) + "</p>"
-                : "<p><strong>Test coverage:</strong> n/a</p>";
+                ? "<p><strong>Test coverage:</strong> "
+                    + h(String.format(Locale.ROOT, "%.2f%%", coverage)) + "</p>\n"
+                : "<p><strong>Test coverage:</strong> n/a</p>\n";
 
+        // Start with a static chunk (no dynamic content inside this text block)
         String html = """
                 <!doctype html>
                 <html lang="en">
@@ -46,22 +55,27 @@ public class ExportPagesData {
                     body { margin:0; padding:2rem; background:#fafafa; }
                     .card{max-width:680px;margin:0 auto;padding:1.25rem;border:1px solid #eee;border-radius:12px;background:#fff;box-shadow:0 2px 16px rgba(0,0,0,.06);}
                     h1{margin:.2rem 0 1rem}
-                    .ok{color:#065f46;background:#ecfdf5;border:1px solid #a7f3d0;padding:.2rem .5rem;border-radius:8px;display:inline-block;font-weight:600}
                     .meta{color:#666;font-size:.9rem}
                   </style>
                 </head>
                 <body>
                   <div class="card">
                     <h1>✅ Build succeeded</h1>
-                """ +
-                "<p><strong>Version:</strong> " + h(buildVersion) + "</p>\n" +
-                coverageLine + """
-                    <p class="meta">Generated: """ + h(Instant.now().toString()) + """</p>
-                    <p>Raw data: <a href="./data.json">data.json</a></p>
+                """;
+
+        // Append dynamic bits via concatenation (safe with text blocks)
+        html += "<p><strong>Version:</strong> " + h(buildVersion) + "</p>\n";
+        html += coverageLine;
+        html += "<p class=\"meta\">Generated: " + h(Instant.now().toString()) + "</p>\n";
+        html += "<p>Raw data: <a href=\"./data.json\">data.json</a></p>\n";
+
+        // Close with another static chunk
+        html += """
                   </div>
                 </body>
                 </html>
                 """;
+
         Files.writeString(docs.resolve("index.html"), html, StandardCharsets.UTF_8);
     }
 
@@ -70,15 +84,27 @@ public class ExportPagesData {
         return (v == null || v.isBlank()) ? def : v;
     }
 
-    private static String h(String s) { return s.replace("&","&amp;").replace("<","&lt;").replace(">","&gt;"); }
-    private static String j(String s) { return s.replace("\\","\\\\").replace("\"","\\\""); }
+    private static String h(String s) {
+        return s.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;");
+    }
+
+    private static String j(String s) {
+        return s.replace("\\", "\\\\")
+                .replace("\"", "\\\"");
+    }
 
     /** Read INSTRUCTION coverage from JaCoCo XML and return percentage (0..100). */
     private static double readInstructionCoveragePercent(Path xmlPath) throws Exception {
-        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlPath.toFile());
+        Document doc = DocumentBuilderFactory.newInstance()
+                .newDocumentBuilder()
+                .parse(xmlPath.toFile());
         doc.getDocumentElement().normalize();
+
         NodeList counters = doc.getElementsByTagName("counter");
         long covered = 0, missed = 0;
+
         for (int i = 0; i < counters.getLength(); i++) {
             var node = counters.item(i);
             var attrs = node.getAttributes();
@@ -87,6 +113,7 @@ public class ExportPagesData {
                 covered += Long.parseLong(attrs.getNamedItem("covered").getNodeValue());
             }
         }
+
         long total = covered + missed;
         if (total == 0) return 0.0;
         return (covered * 100.0) / total;
