@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="44d263a4-003b-484d-8138-33182b7ec437" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Research/alterantives.md" beforeDir="false" afterPath="$PROJECT_DIR$/Research/alterantives.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ExportPagesDataTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ExportPagesDataTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +89,7 @@
       <recent name="$PROJECT_DIR$/docs" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.App">
+  <component name="RunManager">
     <configuration name="App" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="java-app.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.App" />
@@ -109,8 +108,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.27397.103" />
-        <option value="bundled-js-predefined-d6986cc7102b-3aa1da707db6-JavaScript-IU-252.27397.103" />
+        <option value="bundled-python-sdk-7a29c1521ef0-c986f194a52a-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-233.11799.298" />
       </set>
     </attachedChunks>
   </component>
@@ -130,6 +128,7 @@
       <workItem from="1762351660088" duration="4920000" />
       <workItem from="1762465746004" duration="1447000" />
       <workItem from="1762610987361" duration="5749000" />
+      <workItem from="1763124090771" duration="7921000" />
     </task>
     <servers />
   </component>

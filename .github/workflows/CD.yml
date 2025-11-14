@@ -45,6 +45,19 @@ jobs:
           tags: |
             ellimen/esd:latest
             ellimen/esd:${{ steps.meta.outputs.sha_tag }}
+          cache-from: type=gha
+          cache-to: type=gha, mode=max
+      
+      - name: Test Successful Build
+        run: |
+          docker run -d --rm -p 8080:8080 --name app ellimen/esd:latest
+          for i in {1..30}; do
+            if curl -fsS http://localhost:8080/api/health >/dev/null; then break; fi
+            sleep 1
+          done
+          curl -fsS http://localhost:8080/api/info | head -c 500
+          docker stop app
+
 
   pages:
     needs: docker
@@ -67,12 +80,15 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Setup Gradle (cache)
+      - name: Setup Gradle 
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Generate Pages data (docs/data.json)
+      - name: Run tests & JaCoCo report
+        run: ./gradlew clean jacocoTestReport
+
+      - name: Generate Pages data (docs/)
         env:
-          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+          BUILD_VERSION: ${{ github.run_number }}
         run: ./gradlew exportPagesData
 
       - name: Configure Pages
