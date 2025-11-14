@@ -22,6 +22,10 @@ public class ExportPagesData {
         String imageShaTag  = imageName + ":" + shortSha;
         String trivyHigh    = env("TRIVY_HIGH", "0");
         String trivyCritical= env("TRIVY_CRITICAL", "0");
+        String appName     = env("APP_NAME",  "workshop-service");
+        String appVersion  = env("BUILD_VERSION", "local");
+        String appCommit   = env("APP_COMMIT", env("COMMIT_SHA", env("GITHUB_SHA", "unknown")));
+
 
         Path docs = Path.of("docs");
         Files.createDirectories(docs);
@@ -81,6 +85,10 @@ public class ExportPagesData {
         row("Branch", "<code>" + h(branch) + "</code>") +
         row("Commit", "<code>" + h(commit) + "</code> (<code>" + h(shortSha) + "</code>)") +
         row("Build version", "<code>" + h(buildVersion) + "</code>") +
+        row("App", h(appName)) +
+        row("App version", "<code>" + h(appVersion) + "</code>") +
+        row("App commit", "<code>" + h(appCommit) + "</code>") +
+
         """
                   </table>
                 </div>
