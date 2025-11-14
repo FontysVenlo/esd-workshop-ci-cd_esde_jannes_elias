@@ -3,6 +3,7 @@ package workshop;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -16,14 +17,13 @@ public class ExportPagesData {
     public static void main(String[] args) throws Exception {
         String buildVersion = env("BUILD_VERSION", "local");
 
-        // Ensure JaCoCo report exists; this file is produced by `jacocoTestReport`
         Path jacocoXml = Path.of("build/reports/jacoco/test/jacocoTestReport.xml");
         double coverage = Files.exists(jacocoXml) ? readInstructionCoveragePercent(jacocoXml) : -1.0;
 
         Path docs = Path.of("docs");
         Files.createDirectories(docs);
 
-        // --- data.json (programmatic) ---
+        // data.json
         String json =
                 "{\n" +
                 "  \"status\": \"success\",\n" +
@@ -33,16 +33,14 @@ public class ExportPagesData {
                         : "") +
                 "  \"generatedAt\": \"" + j(Instant.now().toString()) + "\"\n" +
                 "}\n";
-
         Files.writeString(docs.resolve("data.json"), json, StandardCharsets.UTF_8);
 
-        // --- index.html (human) ---
+        // index.html (minimal)
         String coverageLine = (coverage >= 0)
                 ? "<p><strong>Test coverage:</strong> "
                     + h(String.format(Locale.ROOT, "%.2f%%", coverage)) + "</p>\n"
                 : "<p><strong>Test coverage:</strong> n/a</p>\n";
 
-        // Start with a static chunk (no dynamic content inside this text block)
         String html = """
                 <!doctype html>
                 <html lang="en">
@@ -62,20 +60,15 @@ public class ExportPagesData {
                   <div class="card">
                     <h1>✅ Build succeeded</h1>
                 """;
-
-        // Append dynamic bits via concatenation (safe with text blocks)
         html += "<p><strong>Version:</strong> " + h(buildVersion) + "</p>\n";
         html += coverageLine;
         html += "<p class=\"meta\">Generated: " + h(Instant.now().toString()) + "</p>\n";
         html += "<p>Raw data: <a href=\"./data.json\">data.json</a></p>\n";
-
-        // Close with another static chunk
         html += """
                   </div>
                 </body>
                 </html>
                 """;
-
         Files.writeString(docs.resolve("index.html"), html, StandardCharsets.UTF_8);
     }
 
@@ -95,27 +88,41 @@ public class ExportPagesData {
                 .replace("\"", "\\\"");
     }
 
-    /** Read INSTRUCTION coverage from JaCoCo XML and return percentage (0..100). */
+    /** Read INSTRUCTION coverage from JaCoCo XML and return percentage (0..100), without loading external DTDs. */
     private static double readInstructionCoveragePercent(Path xmlPath) throws Exception {
-        Document doc = DocumentBuilderFactory.newInstance()
-                .newDocumentBuilder()
-                .parse(xmlPath.toFile());
+        // Secure parser config that ignores DTD/external entities
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        dbf.setNamespaceAware(false);
+        dbf.setValidating(false);
+        dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        // Disallow DOCTYPE and external entities / DTD fetching
+        try { dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false); } catch (Throwable ignored) {}
+        try { dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false); } catch (Throwable ignored) {}
+        try { dbf.setFeature("http://xml.org/sax/features/external-general-entities", false); } catch (Throwable ignored) {}
+        try { dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false); } catch (Throwable ignored) {}
+
+        Document doc = dbf.newDocumentBuilder().parse(xmlPath.toFile());
         doc.getDocumentElement().normalize();
 
         NodeList counters = doc.getElementsByTagName("counter");
         long covered = 0, missed = 0;
-
         for (int i = 0; i < counters.getLength(); i++) {
             var node = counters.item(i);
             var attrs = node.getAttributes();
-            if ("INSTRUCTION".equals(attrs.getNamedItem("type").getNodeValue())) {
-                missed += Long.parseLong(attrs.getNamedItem("missed").getNodeValue());
-                covered += Long.parseLong(attrs.getNamedItem("covered").getNodeValue());
+            if (attrs != null
+                    && attrs.getNamedItem("type") != null
+                    && "INSTRUCTION".equals(attrs.getNamedItem("type").getNodeValue())) {
+                if (attrs.getNamedItem("missed") != null) {
+                    missed += Long.parseLong(attrs.getNamedItem("missed").getNodeValue());
+                }
+                if (attrs.getNamedItem("covered") != null) {
+                    covered += Long.parseLong(attrs.getNamedItem("covered").getNodeValue());
+                }
             }
         }
-
         long total = covered + missed;
-        if (total == 0) return 0.0;
+        if (total <= 0) return 0.0;
         return (covered * 100.0) / total;
     }
 }
+
