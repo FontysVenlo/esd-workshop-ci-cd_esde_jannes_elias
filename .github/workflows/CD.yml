@@ -80,12 +80,15 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Setup Gradle (cache)
+      - name: Setup Gradle 
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Generate Pages data (docs/data.json)
+      - name: Run tests & JaCoCo report
+        run: ./gradlew clean jacocoTestReport
+
+      - name: Generate Pages data (docs/)
         env:
-          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+          BUILD_VERSION: ${{ github.run_number }}
         run: ./gradlew exportPagesData
 
       - name: Configure Pages
