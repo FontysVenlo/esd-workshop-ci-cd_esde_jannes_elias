@@ -18,7 +18,8 @@ public class ExportPagesData {
         String buildVersion = env("BUILD_VERSION", "local");
 
         Path jacocoXml = Path.of("build/reports/jacoco/test/jacocoTestReport.xml");
-        double coverage = Files.exists(jacocoXml) ? readInstructionCoveragePercent(jacocoXml) : -1.0;
+        double coverage = Files.exists(jacocoXml) ? readLineCoveragePercent(jacocoXml) : -1.0;
+
 
         Path docs = Path.of("docs");
         Files.createDirectories(docs);
