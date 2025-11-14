@@ -13,7 +13,6 @@ public class BuildInfoController {
     @Value("${app.name:build-info-service}")
     private String appName;
 
-    // injected from env / CI at runtime (if available)
     @Value("${app.commit:unknown}")
     private String commitSha;
 
