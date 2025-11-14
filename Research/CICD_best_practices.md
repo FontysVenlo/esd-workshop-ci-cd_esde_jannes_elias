@@ -1,5 +1,5 @@
 # CI/CD Pipeline Best Practices
-
+*The following content is fully based on* (Dwyer Jack, 2025).
 ## Introduction
 
 In modern software development, Continuous Integration (CI) and Continuous Deployment (CD) are used to make software delivery faster, safer, and more reliable.  

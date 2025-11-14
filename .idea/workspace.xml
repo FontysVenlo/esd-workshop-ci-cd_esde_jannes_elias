@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="44d263a4-003b-484d-8138-33182b7ec437" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/test/java/ExportPagesDataTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ExportPagesDataTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Research/CICD_best_practices.md" beforeDir="false" afterPath="$PROJECT_DIR$/Research/CICD_best_practices.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Research/ContinousDeliveryAndAgile.md" beforeDir="false" afterPath="$PROJECT_DIR$/Research/ContinousDeliveryAndAgile.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Research/History.md" beforeDir="false" afterPath="$PROJECT_DIR$/Research/History.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Research/Which_problem_does_it_solve.md" beforeDir="false" afterPath="$PROJECT_DIR$/Research/Which_problem_does_it_solve.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +93,7 @@
       <recent name="$PROJECT_DIR$/docs" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.App">
     <configuration name="App" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="java-app.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.App" />

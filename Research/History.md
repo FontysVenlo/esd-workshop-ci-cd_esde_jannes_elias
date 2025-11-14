@@ -1,5 +1,7 @@
 # A Brief History of CI/CD
 
+*The following content is fully based on* (Digger HQ, 2023).
+
 ---
 
 ## Overview

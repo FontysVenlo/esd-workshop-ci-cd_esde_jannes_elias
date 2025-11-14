@@ -1,8 +1,8 @@
 # Continuous Delivery and Its Connection to Agile Principles
-
+*The below content is fully based on* (t2informatik), exceptions are marked separately.
 ## Introduction
 
-Continuous Delivery (CD) is a approach in software development that focuses on **delivering updates faster, safer, and more regularly**.  
+Continuous Delivery (CD) is an approach in software development that focuses on **delivering updates faster, safer, and more regularly**.  
 It is not just a technical process, but also a mindset that fits perfectly with **Agile principles**, especially the idea of delivering value to the customer early and continuously.
 
 ---

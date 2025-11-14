@@ -1,5 +1,7 @@
 # Which Problem Does CI/CD Solve?
 
+*The following content is fully based on* (Viet Hoang Nghiem, 2025).
+
 In many organizations, software development is still slow, manual, and error-prone.  
 Between an idea and its release to customers, weeks or even months can pass.  
 During this time, competitors may deliver faster, bugs remain undiscovered, and teams lose valuable time on manual processes and coordination.
