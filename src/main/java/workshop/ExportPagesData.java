@@ -88,41 +88,19 @@ public class ExportPagesData {
                 .replace("\"", "\\\"");
     }
 
-    /** Read INSTRUCTION coverage from JaCoCo XML and return percentage (0..100), without loading external DTDs. */
-    private static double readInstructionCoveragePercent(Path xmlPath) throws Exception {
-        // Secure parser config that ignores DTD/external entities
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setNamespaceAware(false);
-        dbf.setValidating(false);
-        dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-        // Disallow DOCTYPE and external entities / DTD fetching
-        try { dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", false); } catch (Throwable ignored) {}
-        try { dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false); } catch (Throwable ignored) {}
-        try { dbf.setFeature("http://xml.org/sax/features/external-general-entities", false); } catch (Throwable ignored) {}
-        try { dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false); } catch (Throwable ignored) {}
-
-        Document doc = dbf.newDocumentBuilder().parse(xmlPath.toFile());
-        doc.getDocumentElement().normalize();
-
-        NodeList counters = doc.getElementsByTagName("counter");
-        long covered = 0, missed = 0;
-        for (int i = 0; i < counters.getLength(); i++) {
-            var node = counters.item(i);
-            var attrs = node.getAttributes();
-            if (attrs != null
-                    && attrs.getNamedItem("type") != null
-                    && "INSTRUCTION".equals(attrs.getNamedItem("type").getNodeValue())) {
-                if (attrs.getNamedItem("missed") != null) {
-                    missed += Long.parseLong(attrs.getNamedItem("missed").getNodeValue());
-                }
-                if (attrs.getNamedItem("covered") != null) {
-                    covered += Long.parseLong(attrs.getNamedItem("covered").getNodeValue());
-                }
-            }
+    private static double readLineCoveragePercent(Path xmlPath) throws Exception {
+        String xml = Files.readString(xmlPath);
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile(
+                "<counter\\s+type=\"LINE\"\\s+missed=\"(\\d+)\"\\s+covered=\"(\\d+)\"\\s*/>")
+            .matcher(xml);
+        if (!m.find()) {
+            return 0.0;
         }
-        long total = covered + missed;
-        if (total <= 0) return 0.0;
-        return (covered * 100.0) / total;
-    }
+        long missed = Long.parseLong(m.group(1));
+        long covered = Long.parseLong(m.group(2));
+        long total = missed + covered;
+        if (total == 0) return 0.0;
+            return (covered * 100.0) / total;
+}
 }
 
