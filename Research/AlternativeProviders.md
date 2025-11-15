@@ -34,10 +34,6 @@
 
 ## Source
 
-Based on:  
-Name (year) – *tittle*  
-[Source](-)
-
 GitHub Actions
 
 GitHub (n.d.) GitHub Actions. Available at: https://docs.github.com/en/actions
