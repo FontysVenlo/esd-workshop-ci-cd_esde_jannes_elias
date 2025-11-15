@@ -1,20 +1,20 @@
 # Open Tasks
 
 ## 🧹 Repository & Workflow Cleanup
-- Remove unnecessary requests from the workflows
-- Clean up the repository
-- Link tests to a real application scenario
-- Improve GitHub Pages design
+- Remove unnecessary requests from the workflows ✅
+- Clean up the repository ✅
+- Link tests to a real application scenario ✅ partly
+- Improve GitHub Pages design ✅party
 - Update the **README**:
     - Add project description
     - Include table of contents
-    - Add current CI/CD KPIs
+    - Add current CI/CD KPIs ✅
     - Disable Workflow edit
 
 ---
 
 ## 🧑‍🏫 Workshop Preparation
-- Plan how the workshop will be structured
+- Plan how the workshop will be structured 
 - Create a **step-by-step guide** or **handout** for participants
 
 ---
@@ -22,7 +22,7 @@
 ## 🔍 Research & Documentation
 - Complete the research
 - Add missing topics
-- Include sources formatted in **Harvard citation style**
+- Include sources formatted in **Harvard citation style** ✅
 - Create a **graphical representation** of our CI/CD process
 
 ---
