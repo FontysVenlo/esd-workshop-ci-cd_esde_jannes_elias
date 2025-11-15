@@ -38,21 +38,38 @@ Based on:
 Name (year) – *tittle*  
 [Source](-)
 
-GitHub Actions:
+GitHub Actions
 
-https://docs.github.com/en/actions
-https://docs.github.com/en/actions/concepts/billing-and-usage
-https://spacelift.io/blog/github-actions-vs-jenkins
-https://blog.mirrorfolio.com/surveying-the-merits-and-drawbacks-of-github-actions
+GitHub (n.d.) GitHub Actions. Available at: https://docs.github.com/en/actions
+ (Accessed: 15 November 2025).
+
+GitHub (n.d.) GitHub Actions: Billing and usage. Available at: https://docs.github.com/en/actions/concepts/billing-and-usage
+ (Accessed: 15 November 2025).
+
+Spacelift (n.d.) GitHub Actions vs Jenkins. Available at: https://spacelift.io/blog/github-actions-vs-jenkins
+ (Accessed: 15 November 2025).
+
+Mirrorfolio Blog (n.d.) Surveying the merits and drawbacks of GitHub Actions. Available at: https://blog.mirrorfolio.com/surveying-the-merits-and-drawbacks-of-github-actions
+ (Accessed: 15 November 2025).
 
 GitLab CI/CD
 
-https://docs.gitlab.com/ci/
-https://docs.gitlab.com/ci/pipelines/
-https://knapsackpro.com/ci_servers/gitlab-ci
+GitLab (n.d.) GitLab CI/CD. Available at: https://docs.gitlab.com/ci/
+ (Accessed: 15 November 2025).
+
+GitLab (n.d.) Pipelines. Available at: https://docs.gitlab.com/ci/pipelines/
+ (Accessed: 15 November 2025).
+
+Knapsack Pro (n.d.) GitLab CI. Available at: https://knapsackpro.com/ci_servers/gitlab-ci
+ (Accessed: 15 November 2025).
 
 Jenkins
 
-https://www.jenkins.io/2.0/
-https://www.jenkins.io/doc/book/pipeline/
-https://medium.com/devops-technical-notes-and-manuals/why-use-jenkins-over-the-other-tools-jenkins-pros-and-cons-d2d4811ae81c
+Jenkins (n.d.) Jenkins 2.0. Available at: https://www.jenkins.io/2.0/
+ (Accessed: 15 November 2025).
+
+Jenkins (n.d.) Pipeline. Available at: https://www.jenkins.io/doc/book/pipeline/
+ (Accessed: 15 November 2025).
+
+DevOps Technical Notes and Manuals (n.d.) Why use Jenkins over the other tools? Jenkins pros and cons. Medium. Available at: https://medium.com/devops-technical-notes-and-manuals/why-use-jenkins-over-the-other-tools-jenkins-pros-and-cons-d2d4811ae81c
+ (Accessed: 15 November 2025).
