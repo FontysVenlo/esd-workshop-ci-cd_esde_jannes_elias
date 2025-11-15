@@ -5,74 +5,111 @@ on:
     workflows: ["CI (Build & Test)"]
     types: [completed]
     branches: [main]
+  workflow_dispatch:
 
 concurrency:
   group: cd-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
+permissions:
+  contents: read
+  packages: write     
+  pages: write        
+  id-token: write     
+
 jobs:
   docker:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    name: Docker (Build, Push & E2E)
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
+
     steps:
-      - name: Check out source at CI commit
+      - name: Checkout CI commit (or current on manual run)
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
-      - name: Set up Docker Buildx
+      - name: Setup Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Log in to Docker Hub
+      - name: Login to GHCR
         uses: docker/login-action@v3
         with:
-          username: ${{ vars.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Compute tags
-        id: meta
-        run: |
-          short_sha=${{ github.event.workflow_run.head_sha }}
-          echo "sha_tag=${short_sha:0:12}" >> "$GITHUB_OUTPUT"
-
-      - name: Build & push Docker image
+      - name: Build & push Docker image to GHCR
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: |
-            ellimen/esd:latest
-            ellimen/esd:${{ steps.meta.outputs.sha_tag }}
+            ghcr.io/${{ github.repository }}:latest
+            ghcr.io/${{ github.repository }}:${{ github.sha }}
           cache-from: type=gha
-          cache-to: type=gha, mode=max
-      
-      - name: Test Successful Build
-        run: |
-          docker run -d --rm -p 8080:8080 --name app ellimen/esd:latest
-          for i in {1..30}; do
-            if curl -fsS http://localhost:8080/api/health >/dev/null; then break; fi
-            sleep 1
-          done
-          curl -fsS http://localhost:8080/api/info | head -c 500
-          docker stop app
+          cache-to: type=gha,mode=max
 
+      - name: End-to-end test (container)
+        run: |
+          set -e
+
+          IMAGE="ghcr.io/${{ github.repository }}:latest"
+          CONTAINER_NAME="workshop-app"
+
+          echo "Starting container from $IMAGE ..."
+          docker run -d --rm \
+            --name "$CONTAINER_NAME" \
+            -p 8080:8080 \
+            -e APP_COMMIT=${GITHUB_SHA::12} \
+            "$IMAGE"
+
+          echo "Waiting for /api/health to become healthy ..."
+          for i in {1..30}; do
+            if curl -fsS http://localhost:8080/api/health > /tmp/health.json 2>/dev/null; then
+              echo "Health endpoint responded:"
+              cat /tmp/health.json
+              break
+            fi
+            echo "  attempt $i: not ready yet"
+            sleep 2
+          done
+
+          if ! test -s /tmp/health.json; then
+            echo "ERROR: App did not become healthy in time."
+            echo "---- container logs ----"
+            docker logs "$CONTAINER_NAME" || true
+            docker stop "$CONTAINER_NAME" || true
+            exit 1
+          fi
+
+          echo "Checking /api/info ..."
+          if ! curl -fsS http://localhost:8080/api/info > /tmp/info.json; then
+            echo "ERROR: /api/info did not respond with HTTP 200."
+            echo "---- container logs ----"
+            docker logs "$CONTAINER_NAME" || true
+            docker stop "$CONTAINER_NAME" || true
+            exit 1
+          fi
+
+          echo "E2E check passed. Sample /api/info response:"
+          head -c 400 /tmp/info.json || true
+
+          docker stop "$CONTAINER_NAME"
 
   pages:
+    name: GitHub Pages (Build Summary)
     needs: docker
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout CI commit (or current on manual run)
+        uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -80,18 +117,18 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Setup Gradle 
+      - name: Setup Gradle (cache)
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Run tests & JaCoCo report
+      - name: Run tests & generate coverage
         run: ./gradlew clean jacocoTestReport
 
-      - name: Generate Pages data (docs/)
+      - name: Generate Pages content (docs/)
         env:
           BUILD_VERSION: ${{ github.run_number }}
         run: ./gradlew exportPagesData
 
-      - name: Configure Pages
+      - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
