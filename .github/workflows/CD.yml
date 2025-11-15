@@ -53,7 +53,7 @@ jobs:
             ghcr.io/${{ steps.repo.outputs.repo_lc }}:latest
             ghcr.io/${{ steps.repo.outputs.repo_lc }}:${{ github.sha }}
 
-      - name: End-to-end Smoke Test
+      - name: End-to-end Test for Docker Container
         run: |
           set -e
           IMAGE="ghcr.io/${{ steps.repo.outputs.repo_lc }}:latest"
@@ -64,8 +64,7 @@ jobs:
             -p 8080:8080 \
             -e APP_COMMIT=${GITHUB_SHA::12} \
             "$IMAGE"
-
-          echo "Waiting for app..."
+            
           for i in {1..30}; do
             if curl -fsS http://localhost:8080/api/health; then
               echo "Health OK"
