@@ -45,8 +45,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:latest
-            ghcr.io/${{ github.repository }}:${{ github.sha }}
+            ghcr.io/fontysvenlo/esd-workshop-ci-cd_esde_jannes_elias:latest
+            ghcr.io/fontysvenlo/esd-workshop-ci-cd_esde_jannes_elias:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
