@@ -16,6 +16,6 @@ public class HelloController {
 
     @GetMapping("/")
     public String home() {
-        return "Your CI/CD pipeline has been fully executed!";
+        return "Your Container was built successfully!";
     }
 }
