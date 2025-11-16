@@ -1,0 +1,2 @@
+# Only DevOps-Team is allowed to edit the workflow files
+.github/workflows/*  @devops-team
