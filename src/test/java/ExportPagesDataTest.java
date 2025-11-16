@@ -9,7 +9,7 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class ExportPagesDataTest {
+class ExportPagesDaaTest {
 
     @Test
     void withLineCounter_computesCoverage() throws Exception {
