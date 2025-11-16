@@ -1,5 +1,6 @@
 # CI/CD Pipeline
-
+>This folder contains all GitHub Actions workflows used for Continuous Integration and Continuous Delivery of our project.
+The workflows build, test, analyze, and deploy the application automatically.
 ## CI/CD Workflow
 ![CICD Pipeline](../../Research/images/pipeline_workflow.png)
 
