@@ -1,4 +1,4 @@
-# CI/CD Workshop Repository
+# CI/CD Workshop Repository2
 
 ## Workshop Task Repository
  - [Repo](https://github.com/janneshatzius/ESDE_WORKSHOP_TASK_CICD)
