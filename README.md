@@ -2,7 +2,7 @@
 
 ## Workshop Task Repository
 
-https://github.com/janneshatzius/ESDE_WORKSHOP_TASK_CICD
+
 [Repo][(https://github.com/janneshatzius/ESDE_WORKSHOP_TASK_CICD)](https://github.com/janneshatzius/ESDE_WORKSHOP_TASK_CICD)
 ## Table of Content
 - [Research](/Research/)
