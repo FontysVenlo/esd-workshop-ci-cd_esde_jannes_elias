@@ -1,4 +1,4 @@
-package workshop.api;
+import workshop.api.HelloController;
 
 import org.junit.jupiter.api.Test;
 
