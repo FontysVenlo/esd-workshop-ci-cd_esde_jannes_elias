@@ -6,7 +6,7 @@
 - Link tests to a real application scenario ✅ partly
 - Improve GitHub Pages design ✅party
 - Update the **README**:
-    - Add project description
+    - Add project description ✅
     - Include table of contents ✅
     - Add current CI/CD KPIs ✅
     - Disable Workflow edit
