@@ -13,8 +13,6 @@ The main goals are:
 
 CI/CD is part of DevOps, where teams focus on automation and continuous improvement.
 
----
-
 ## CI/CD Pipeline Steps
 
 1. **Code Commit** – Developers push code to a shared Git repository. This starts the pipeline.  
@@ -22,8 +20,6 @@ CI/CD is part of DevOps, where teams focus on automation and continuous improvem
 3. **Test** – Automated tests check if the software works correctly.  
 4. **Staging** – The app is deployed to a test environment that is similar to production.  
 5. **Deployment** – If all tests are successful, the new version goes live automatically.
-
----
 
 ## Continuous Integration (CI) Best Practices
 
@@ -38,8 +34,6 @@ This helps to find bugs early and keep the main code stable.
 
 **Common Tools:** Jenkins, GitHub Actions, Travis CI, CircleCI
 
----
-
 ## Continuous Deployment (CD) Best Practices
 
 Continuous Deployment means that tested code is automatically released to users.  
@@ -51,8 +45,6 @@ It helps teams to deliver updates faster and more safely.
 - Canary Releases: First deploy changes to a small group of users before the full release.  
 
 **Common Tools:** Docker, Kubernetes, Ansible
-
----
 
 ## Continuous Monitoring and Feedback Loop
 
@@ -66,8 +58,6 @@ They help teams continuously improve their CI/CD process.
 
 **Goal:** Make the CI/CD pipeline better step by step, using data and feedback.
 
----
-
 ## Other Important Best Practices
 
 - Version Control: Use Git to manage and track code changes.  
@@ -76,8 +66,6 @@ They help teams continuously improve their CI/CD process.
 - Code Reviews: Check each other’s code to keep high quality.  
 - Backups and Disaster Recovery: Regularly back up data and test restoring it.  
 - Collaboration: Build a strong DevOps culture where teams share knowledge and work closely together.
-
----
 
 ## What Makes a Good CI/CD Pipeline?
 

@@ -6,19 +6,19 @@
 *The following content is fully based on* (GitLab).
 ### What is GitOps?
 
-GitOps is an operational framework that applies **DevOps practices** like version control, collaboration, and CI/CD to **infrastructure automation**.  
-It ensures **consistent and repeatable deployments** across environments.
+GitOps is an operational framework that applies DevOps practices like version control, collaboration, and CI/CD to infrastructure automation**.  
+It ensures consistent and repeatable deployments across environments.
 
-While much of the software development lifecycle has been automated, **infrastructure management** has often remained a manual process requiring specialized teams.  
+While much of the software development lifecycle has been automated, infrastructure management has often remained a manual process requiring specialized teams.  
 GitOps solves this by using automation and treating infrastructure configurations as code.
 
-Modern applications are developed for **speed and scalability**.  
-Organizations with a mature DevOps culture can deploy code to production many times per day through practices like **version control, code review, and CI/CD pipelines**.  
+Modern applications are developed for speed and scalability.  
+Organizations with a mature DevOps culture can deploy code to production many times per day through practices like version control, code review, and CI/CD pipelines**.  
 GitOps extends these ideas to automate the provisioning of modern, cloud-based infrastructure.
 
 ### How Teams Use GitOps
 
-Teams implement GitOps by using **Git repositories as the single source of truth**, automating deployments, and enforcing changes through **merge requests (MRs)** or **pull requests (PRs)**.
+Teams implement GitOps by using Git repositories as the single source of truth, automating deployments, and enforcing changes through merge requests (MRs) or pull requests (PRs).
 
 GitOps is not a single product or platform.  
 Instead, it is a process that uses tools and workflows to manage configurations and deployments automatically.

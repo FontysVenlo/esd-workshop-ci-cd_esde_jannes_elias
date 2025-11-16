@@ -5,8 +5,6 @@
 Continuous Delivery (CD) is an approach in software development that focuses on **delivering updates faster, safer, and more regularly**.  
 It is not just a technical process, but also a mindset that fits perfectly with **Agile principles**, especially the idea of delivering value to the customer early and continuously.
 
----
-
 ## What Is Continuous Delivery?
 
 Continuous Delivery means that software is **always in a state that can be released at any time**.  
@@ -27,8 +25,6 @@ Typical steps in a Continuous Delivery pipeline:
 
 This process is often visualized as an **infinite loop**, symbolizing that software improvement never stops.
 
----
-
 ## Connection to Agile Principles
 
 The **first principle of the Agile Manifesto** states:
@@ -46,8 +42,6 @@ This means:
 CD transforms Agile theory into **practical progress**.  
 It allows organizations to live the Agile value of *responding to change quickly*.
 
----
-
 ## Benefits of Continuous Delivery in Agile Teams
 
 - **Faster Time-to-Market** – automation shortens the path from idea to release.
@@ -58,8 +52,6 @@ It allows organizations to live the Agile value of *responding to change quickly
 
 Together, these benefits help Agile teams stay flexible, innovative, and customer-focused.
 
----
-
 ## Challenges
 
 Even though Continuous Delivery offers many advantages, it can be difficult to set up:
@@ -68,8 +60,6 @@ Even though Continuous Delivery offers many advantages, it can be difficult to s
 - **Cultural change** is needed, as teams must learn to trust automation.
 - **Security and compliance** must be built into the process.
 - **Tool selection** can be challenging since many options exist.
-
----
 
 ## Conclusion
 

@@ -12,7 +12,7 @@ During this time, competitors may deliver faster, bugs remain undiscovered, and 
    Developers often test their changes only on their local machines with different setups and tools.  
    This makes results inconsistent — something that works locally may fail in production.  
    Automatic and repeatable tests are usually missing.  
-   → The well-known phrase *“Works on my machine”* becomes a real problem.
+   —> The well-known phrase *“Works on my machine”* becomes a real problem.
 
 2. **Manual Quality Assurance**  
    Test teams click through applications manually or follow checklists.  
@@ -43,17 +43,15 @@ With CI/CD:
 
 The result is **faster, safer, and more reliable releases** — and a smoother workflow for everyone involved.
 
----
-
 ## Comparison: Without CI/CD vs. With CI/CD
 
-| **Process Step**              | **Without CI/CD**                                                                 | **With CI/CD**                                                                                  |
-|-------------------------------|-----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
-| **New Feature Completed**     | Manual, often incomplete testing                                                  | Automated testing runs immediately after each commit                                            |
-| **Error Detection**           | Detected late — during manual testing or even in production                       | Detected early through automated checks and unit tests                                          |
-| **Test Environment Setup**    | Manual, inconsistent, error-prone                                                 | Automated and consistent across all environments                                                |
-| **Go-Live / Deployment**      | Manual deployment, often done at night or weekends to avoid downtime              | Automated, scheduled deployments with rollback options                                          |
-| **Team Workload**             | High manual effort, stressful release days                                        | Streamlined workflow, faster feedback, and fewer errors                                         |              
+| **Process Step**              | **Without CI/CD**                                                    | **With CI/CD**                                                                                  |
+|-------------------------------|----------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| **New Feature Completed**     | Manual, often incomplete testing                                     | Automated testing runs immediately after each commit                                            |
+| **Error Detection**           | Detected late —> during manual testing or even in production         | Detected early through automated checks and unit tests                                          |
+| **Test Environment Setup**    | Manual, inconsistent, error-prone                                    | Automated and consistent across all environments                                                |
+| **Go-Live / Deployment**      | Manual deployment, often done at night or weekends to avoid downtime | Automated, scheduled deployments with rollback options                                          |
+| **Team Workload**             | High manual effort, stressful release days                           | Streamlined workflow, faster feedback, and fewer errors                                         |              
 
 ---
 
