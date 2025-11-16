@@ -1,9 +1,7 @@
 # CI/CD Workshop Repository
 
 ## Workshop Task Repository
-
-
-[Repo](https://github.com/janneshatzius/ESDE_WORKSHOP_TASK_CICD)
+ - [Repo](https://github.com/janneshatzius/ESDE_WORKSHOP_TASK_CICD)
 ## Table of Content
 - [Research](/Research/)
 - [Java Project](/src/)
