@@ -1,21 +1,16 @@
 package workshop.api;
 
-import workshop.BuildInfoApplication;
+import org.junit.jupiter.api.Test;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.lang.management.ManagementFactory;
-import java.time.Duration;
-import java.util.LinkedHashMap;
-import java.util.Map;
+class HelloControllerTest {
 
-@RestController
-public class HelloController {
+    @Test
+    void home_returnsHelloFromDocker() {
+        HelloController helloController = new HelloController();
+        String message = helloController.home();
 
-    @GetMapping("/")
-    public String home() {
-        return "Hello from Docker!";
+        assertEquals("Hello from Docker!", message);
     }
 }
