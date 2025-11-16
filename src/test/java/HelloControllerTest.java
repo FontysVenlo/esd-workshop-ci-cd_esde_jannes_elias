@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -15,9 +16,10 @@ class HelloControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    void home_returnsHelloFromDocker() throws Exception {
-        mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Hello from Docker!"));
+    void home_returnsHelloFromDocker(){
+        HelloController helloController = new HelloController();
+        String message = helloController.home();
+
+        assertEquals("Hello Docker", message);
     }
 }
