@@ -1,0 +1,197 @@
+name: CD (Docker & Pages)
+
+on:
+  workflow_run:
+    workflows: ["CI (Build & Test)"]
+    types: [completed]
+    branches: [main]
+
+  workflow_dispatch:
+
+concurrency:
+  group: cd-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  # pages: write      # Only uncomment once you try to deploy GitHub Pages
+  # id-token: write   # Only uncomment once you try to deploy-pages for OIDC
+
+jobs:
+  docker:
+    name: Docker Hub – Build, Push & E2E
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout CI commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # ------------------------- STUDENT TODOs (Docker Hub & E2E) -------------------------
+
+      # TODO 1 – Log in to Docker Hub
+      #
+      # Goal:
+      #   Authenticate this workflow to Docker Hub so it can push images
+      #   to the student's personal Docker Hub namespace.
+      #
+      # Expectations:
+      #   - Use a CI-friendly login mechanism (not a manual 'docker login').
+      #   - Read the Docker Hub username from a repository variable called DOCKERHUB_USERNAME
+      #   - Read the Docker Hub token from a repository secret called DOCKERHUB_TOKEN
+     
+      - name: TODO – Login to Docker Hub
+        run: |
+          echo "TODO: log in to Docker Hub using a CI action and:"
+          echo "      DOCKERHUB_USERNAME (variable) and DOCKERHUB_TOKEN (secret)."
+
+      # TODO 2 – Build and push Docker image to Docker Hub
+      #
+      # Goal:
+      #   Build the application image for this repo and push it to the
+      #   student's Docker Hub account.
+      #
+      # Expectations:
+      #   - Use the repository root (.) as the build context.
+      #   - Tag the image in the student's namespace, for example:
+      #       <dockerhub-username>/esd:latest
+      #       <dockerhub-username>/esd:<commit-sha-or-short-sha>
+      #   - Push at least:
+      #       - the "latest" tag
+      #       - the commit-specific tag (sha-tag)
+      #       - use build cache to speed up future builds.
+      #
+      - name: TODO – Build & push Docker Hub image
+        run: |
+          echo "TODO: build the image from '.' and push Docker Hub tags like:"
+          echo "      \${{ vars.DOCKERHUB_USERNAME }}/esd:latest"
+          echo "      \${{ vars.DOCKERHUB_USERNAME }}/esd:<commit-sha>"
+
+      # TODO 3 – End-to-end (E2E) container smoke test using Docker Hub image
+      #
+      # Goal:
+      #   Verify that the freshly pushed image actually runs and responds correctly,
+      #   mimicking a real deployment scenario.
+      #
+      # Expectations:
+      #   - Start a container from the Docker Hub image you just pushed, e.g.:
+      #       <dockerhub-username>/esd:latest
+      #   - Wait for the app to become "healthy" by polling a health endpoint
+      #     such as /api/health until it returns HTTP 200 or a timeout occurs.
+      #   - Call at least one more functional endpoint (e.g. /api/info) and fail
+      #     the job if it does not return a successful HTTP response.
+      #   - Stop and clean up the container, even on failure.
+      #
+      # The test that is supposed to be run for this:
+      #    set -e
+      #    IMAGE="${{ vars.DOCKERHUB_USERNAME }}/esd:latest"
+      #    CONTAINER_NAME="workshop-app"
+      #
+      #    docker run -d --rm \
+      #      --name "$CONTAINER_NAME" \
+      #      -p 8080:8080 \
+      #      -e APP_COMMIT=${GITHUB_SHA::12} \
+      #      "$IMAGE"
+      #      
+      #    for i in {1..30}; do
+      #      if curl -fsS http://localhost:8080/api/health; then
+      #        echo "Health OK"
+      #        break
+      #      fi
+      #      sleep 2
+      #    done
+      #
+      #    curl -fsS http://localhost:8080/api/info
+      #    docker stop "$CONTAINER_NAME"
+      - name: TODO – E2E test against Docker Hub image
+        run: |
+          echo "TODO: run a container from \${{ vars.DOCKERHUB_USERNAME }}/esd:latest,"
+          echo "      poll /api/health until OK, then call /api/info and stop the container."
+
+      # ------------------------------------------------------------------------------
+
+  pages:
+    name: GitHub Pages – Build Summary
+    needs: docker
+    runs-on: ubuntu-latest
+    # Uncomment once you implemented the GitHub Pages
+    # environment:
+    #   name: github-pages
+    #   url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - name: Checkout CI commit 
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # ------------------------- STUDENT TODOs (Pages) -------------------------
+
+      # TODO 4 – Re-run tests & generate coverage in CD
+      #
+      # Goal:
+      #   Ensure the CD pipeline has an up-to-date test and coverage result
+      #   and that a coverage report is available for the Pages site.
+      #
+      # Expectations:
+      #   - Run the project's test task(s).
+      #   - Generate the JaCoCo coverage reports (XML and HTML).
+      #
+      - name: TODO – Run tests & generate coverage
+        run: |
+          echo "TODO: run Gradle tasks that execute tests and produce coverage reports."
+
+      # TODO 5 – Generate static content for GitHub Pages (docs/)
+      #
+      # Goal:
+      #   Create a small static site that summarises build information
+      #   (e.g. commit, run number, coverage) into the docs/ directory.
+      #
+      # Expectations:
+      #   - Execute the existing task/class that writes into docs/.
+      #   - Include some build identifier (like the workflow run number or build version).
+      #   - Ensure docs/ contains at least an index page and supporting data files.
+      #
+      - name: TODO – Generate Pages content (docs/)
+        run: |
+         echo "TODO: generate docs/ via the existing Gradle task that exports data."
+
+      # TODO 6 – Configure & deploy GitHub Pages
+      #
+      # Goal:
+      #   Publish the docs/ directory as a GitHub Pages site whenever CD succeeds.
+      #
+      # Expectations:
+      #   - At the top of this workflow, enable:
+      #       pages: write
+      #       id-token: write
+      #   - Use official GitHub actions to:
+      #       1) configure Pages for this repo,
+      #       2) upload docs/ as a Pages artifact,
+      #       3) deploy that artifact to the GitHub Pages environment.
+      #   - After a successful run, the Pages URL should be visible in the job summary.
+      #
+      # Hints:
+      #   - The upload step should target exactly the docs/ directory.
+      #   - The deploy step usually exposes the final URL via an output like "page_url".
+      #
+      - name: TODO – Configure & deploy GitHub Pages
+        run: |
+          echo "TODO: configure Pages, upload docs/ as an artifact,"
+          echo "      and deploy it so the site is available via GitHub Pages."
+
+
