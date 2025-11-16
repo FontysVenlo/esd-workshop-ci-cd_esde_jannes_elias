@@ -7,7 +7,7 @@
 - Improve GitHub Pages design ✅party
 - Update the **README**:
     - Add project description
-    - Include table of contents
+    - Include table of contents ✅
     - Add current CI/CD KPIs ✅
     - Disable Workflow edit
 
@@ -21,9 +21,9 @@
 
 ## 🔍 Research & Documentation
 - Complete the research
-- Add missing topics
+- Add missing topics ✅
 - Include sources formatted in **Harvard citation style** ✅
-- Create a **graphical representation** of our CI/CD process
+- Create a **graphical representation** of our CI/CD process ✅
 
 ---
 
