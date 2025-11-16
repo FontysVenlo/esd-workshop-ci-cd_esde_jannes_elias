@@ -1,4 +1,4 @@
-# CI/CD Pipeline check
+# CI/CD Pipeline check2
 >This folder contains all GitHub Actions workflows used for Continuous Integration and Continuous Delivery of our project.
 The workflows build, test, analyze, and deploy the application automatically.
 
