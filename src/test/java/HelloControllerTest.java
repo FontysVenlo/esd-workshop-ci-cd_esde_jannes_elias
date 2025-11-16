@@ -11,6 +11,6 @@ class HelloControllerTest {
         HelloController helloController = new HelloController();
         String message = helloController.home();
 
-        assertEquals("Hello from Docker!", message);
+        assertEquals("Your CI/CD pipeline has been fully executed!", message);
     }
 }

@@ -16,6 +16,6 @@ public class HelloController {
 
     @GetMapping("/")
     public String home() {
-        return "Hello from Docker!";
+        return "Your CI/CD pipeline has been fully executed!";
     }
 }
