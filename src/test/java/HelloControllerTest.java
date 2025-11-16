@@ -20,6 +20,6 @@ class HelloControllerTest {
         HelloController helloController = new HelloController();
         String message = helloController.home();
 
-        assertEquals("Hello Docker", message);
+        assertEquals("Hello from Docker!", message);
     }
 }
